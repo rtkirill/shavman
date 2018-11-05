@@ -1,4 +1,9 @@
-canvas {
-    border: 2px solid yellow;
-    /*background: url("../img/BgImg.jpg") center no-repeat;*/
+html, body {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #000;
 }
