@@ -29,7 +29,6 @@ function main() {
     failImg.src = 'assets/img/FailImg.png';
 
 
-
     var hero = {
         x: 50,
         y: cvs.height - 230
@@ -55,17 +54,44 @@ function main() {
     function draw() {
         //Restore
         ctx.clearRect(0, 0, cvs.width, cvs.height);
-        // ctx.globalAlpha = 1.0;
 
         // bgSound.play();
 
         //Hero
+        ctx.globalAlpha = 1.0;
         ctx.drawImage(bgImg,0,0);
         ctx.drawImage(heroImg,hero.x,hero.y);
 
         for(var i=0; i<goal.length; i++) {
+            if(hero.x <= goal[i].x+dreamImg.width
+                && hero.x+heroImg.width >= goal[i].x
+                && hero.y <= goal[i].y
+                && goal[i].y < 500) {
+
+                if(randItem == "dream") {
+                    ctx.globalAlpha = 1.0;
+                    ctx.drawImage(successImg,hero.x,hero.y);
+                } else {
+                    ctx.globalAlpha = 1.0;
+                    ctx.drawImage(failImg, hero.x, hero.y);
+                    // enemySound.play();
+                    score = 0;
+                    location.reload();
+                }
+
+                if(goal[i].y>=hero.y && goal[i].y<hero.y+speed) {
+                    score++;
+                    // dreamSound.play();
+                    if (score > 0 && score % 5 == 0 && speed<8) {
+                        speed++;
+                    }
+                }
+
+                ctx.globalAlpha = 0.0;
+            }
             randItem=="dream" ?
                 ctx.drawImage(dreamImg,goal[i].x,goal[i].y) : ctx.drawImage(enemyImg,goal[i].x,goal[i].y);
+
 
             goal[i].y += speed;
 
@@ -78,38 +104,13 @@ function main() {
                 randItem = items[Math.floor(Math.random() * items.length)];
             }
 
-            if(hero.x <= goal[i].x+dreamImg.width
-                && hero.x+heroImg.width >= goal[i].x
-                && hero.y <= goal[i].y && goal[i].y < 500) {
-                if(randItem == "dream")
-                    ctx.drawImage(successImg,hero.x,hero.y);
-                else {
-                    if(goal[i].y>=hero.y && goal[i].y<hero.y+speed) {
-                        ctx.drawImage(failImg, hero.x, hero.y);
-                        // enemySound.play();
-                        score = 0;
-                        location.reload();
-                    }
-                }
 
-                if(goal[i].y>=hero.y && goal[i].y<hero.y+speed) {
-                    score++;
-                    // dreamSound.play();
-                    if (score > 0 && score % 5 == 0 && speed<8) {
-                        speed++;
-                    }
-                }
-
-            }
 
             ctx.fillStyle = "#fff";
             ctx.font = "24px Verdana";
+            ctx.globalAlpha = 1.0;
             ctx.fillText("SCORE: " + score, cvs.width - 150, cvs.height - 20);
 
-            /*if() {
-                ctx.globalAlpha = 0.1;
-                ctx.drawImage(dreamImg,goal[i].x,goal[i].y);
-            }*/
         }
 
         requestAnimationFrame(draw);
