@@ -84,12 +84,10 @@ function main() {
                 } else {
                     ctx.globalAlpha = 1.0;
                     ctx.drawImage(failImg, hero.x, hero.y);
+
+                    //Lose
                     score = 0;
                     enemySound.play();
-
-                    //Hero lose
-                    if(goal[i].y > hero.y+50)
-                        location.reload();
                 }
 
                 //Calculate score and increment speed every 5 score
